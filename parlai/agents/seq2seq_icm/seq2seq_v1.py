@@ -44,6 +44,23 @@ class Seq2seqAgent(TorchAgent):
     def add_cmdline_args(cls, argparser):
         """Add command-line arguments specifically for this agent."""
         agent = argparser.add_argument_group('Seq2Seq Arguments')
+
+        agent.add_argument(
+            '-icm-fea-size'
+            '--icmfeaturesize',
+            type=int,
+            default=128,
+            help='icm features',
+        )
+
+        agent.add_argument(
+            '-icm-beta'
+            '--icmbeta',
+            type=int,
+            default=0.5,
+            help='icm beta',
+        )
+
         agent.add_argument(
             '--init-model',
             type=str,
@@ -286,6 +303,8 @@ class Seq2seqAgent(TorchAgent):
             start_idx=self.START_IDX,
             unknown_idx=self.dict[self.dict.unk_token],
             longest_label=states.get('longest_label', 1),
+            icm_feature_size=opt['icmfeaturesize'],
+            icm_beta=opt['icmbeta']
             **kwargs,
         )
 

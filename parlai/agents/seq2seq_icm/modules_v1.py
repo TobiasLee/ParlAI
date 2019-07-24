@@ -142,7 +142,8 @@ class Seq2seq(nn.Module):
             unknown_idx=3,
             input_dropout=0,
             longest_label=1,
-            icm_feature_size=128
+            icm_feature_size=128,
+            icm_beta=0.5
     ):
         """Initialize seq2seq model.
 
@@ -155,7 +156,7 @@ class Seq2seq(nn.Module):
         self.register_buffer('START', torch.LongTensor([start_idx]))
         self.longest_label = longest_label
         # ICM Module
-        self.icm = ICM(hiddensize, feature_size=icm_feature_size, vocab_size=num_features)
+        self.icm = ICM(hiddensize, feature_size=icm_feature_size, vocab_size=num_features, beta=icm_beta)
 
         rnn_class = Seq2seq.RNN_OPTS[rnn_class]
         self.decoder = RNNDecoder(
